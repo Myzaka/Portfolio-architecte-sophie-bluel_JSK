@@ -116,8 +116,13 @@ function creerAffichage(baseAffichage, parentAffichage, miniMaxi) {
 
     if (miniMaxi == 'mini') {
         const iconeVignette = document.createElement('a');
-        iconeVignette.innerHTML = `<button class="icone" onclick="supprimerProjet(this);openModal()"><i class="fa-solid fa-trash-can"></i></button>`
+        iconeVignette.innerHTML = `<button class="icone"><i class="fa-solid fa-trash-can"></i></button>`
         figure.appendChild(iconeVignette);
+        iconeVignette.addEventListener("click", (e) => {
+            e.preventDefault();
+            console.log(e);
+            supprimerProjet(e)
+        })
     }
 
     const descriptionVignette = document.createElement('figcaption');
@@ -127,13 +132,20 @@ function creerAffichage(baseAffichage, parentAffichage, miniMaxi) {
 
 //Fonction permettant de supprimer une fiche projet
 
-function supprimerProjet(selectedItem) {
+function supprimerProjet(event) {
 
-    const itemRecherche = selectedItem.parentElement;
+    const target = event.target;
+
+    const itemRecherche = target.parentElement;
     const itemRecherche2 = itemRecherche.parentElement;
-    const itemRecherche3 = itemRecherche2.id;
+    const itemRecherche3 = itemRecherche2.parentElement;
+    const itemRecherche4 = itemRecherche3.id;
+    console.log(itemRecherche);
+    console.log(itemRecherche2);
+    console.log(itemRecherche3);
+    console.log(itemRecherche4);
 
-    fetch('http://localhost:5678/api/works/' + itemRecherche3, {
+    fetch('http://localhost:5678/api/works/' + itemRecherche4, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -316,8 +328,6 @@ function previewFile() {
     }
 }
 
-/*---------------------------------------------TEST--------------------------------------------------------*/
-
 function testBouton() {
 
     const submitBtn = document.getElementById('valider')
@@ -334,7 +344,44 @@ function testBouton() {
         )
     }
 
-    photo.addEventListener('change', checkEnableButton)
-    titre.addEventListener('change', checkEnableButton)
-    categorie.addEventListener('change', checkEnableButton)
+    photo.addEventListener('change', checkEnableButton);
+    titre.addEventListener('change', checkEnableButton);
+    categorie.addEventListener('change', checkEnableButton);
+
+
+}
+
+function chargerProjet() {
+
+    const photo = document.getElementById('ajouterPhoto')
+    const titre = document.getElementById('titre')
+    const categorie = document.getElementById('categorie')
+
+
+    fetch('http://localhost:5678/api/works', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Authorization': 'Basic ' + sessionStorage.getItem('sessionID')
+        },
+        body: JSON.stringify({ "image": "C:\Users\jerom\Documents\Jérôme Pro\_Certification Développeur Web\Projet 3_Portfolio architecte\CodeProjet3\Fichiers de travail\Fichier de secours images\abajour-tahina1651286843956.png", "title": "Abat-jour Tahina", "category": "Objets" })
+    })
+
+        .then(function (response) {
+            console.log(response)
+            if (response.status == 200) {
+                return response.json();
+            }
+        })
+
+        .then(function (result) {
+            console.log(result)
+            return
+        })
+
+        .catch((error) => {
+            console.log('Erreur de chargement : ' + error);
+        });
+
+
 }

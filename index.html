@@ -93,9 +93,9 @@
 							<label for="categorie" class="labelForm">Catégorie</label><br>
 							<select name="categorie" id="categorie" class='testAffichageBouton' required>
 								<option value=""></option>
-								<option value="Objets">Objets</option>
-								<option value="Appartements">Appartements</option>
-								<option value="Hotels & restaurants">Hotels & restaurants</option>
+								<option value="1">Objets</option>
+								<option value="2">Appartements</option>
+								<option value="3">Hotels & restaurants</option>
 							</select>
 							<br>
 							<label for="categorie" class='labelErreur' id="erreurCategorie"></label>
@@ -122,11 +122,9 @@
 
 			<div class="gallery" id="gallery">
 				<script>
-					//recupererContenuBase('http://localhost:5678/api/works', 'Tous') // Permet d'afficher tous les projets par défaut
 					recupererContenuBase('http://localhost:5678/api/works', 'Tous', 'gallery', 'maxi') // Permet d'afficher tous les projets par défaut
 					identifierCritereDeTri(); // Permet d'afficher les projets sélectionnés via les boutons de filtre
 					createBoutonEdition();//permet d'afficher le bouton modifier pour un utilisateur logué
-					/*ouvrirModale();*/
 				</script>
 			</div>
 
@@ -144,10 +142,6 @@
 				<input type="submit" value="Envoyer">
 			</form>
 		</section>
-
-
-
-
 
 	</main>
 

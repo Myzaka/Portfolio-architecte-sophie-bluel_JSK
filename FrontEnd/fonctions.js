@@ -120,7 +120,7 @@ function creerAffichage(baseAffichage, parentAffichage, miniMaxi) {
         figure.appendChild(iconeVignette);
         iconeVignette.addEventListener("click", (e) => {
             e.preventDefault();
-            console.log(e);
+            //console.log(e);
             supprimerProjet(e)
         })
     }
@@ -142,10 +142,11 @@ function supprimerProjet(event) {
     const itemRecherche2 = itemRecherche.parentElement;
     const itemRecherche3 = itemRecherche2.parentElement;
     const itemRecherche4 = itemRecherche3.id;
-    console.log(itemRecherche);
-    console.log(itemRecherche2);
+    //console.log(itemRecherche);
+    //console.log(itemRecherche2);
     console.log(itemRecherche3);
-    console.log(itemRecherche4);
+    //console.log(itemRecherche4);
+    //console.log('test5');
 
     fetch('http://localhost:5678/api/works/' + itemRecherche4, {
         method: "DELETE",
@@ -156,27 +157,20 @@ function supprimerProjet(event) {
     }) // !!! La suppression d'une vignette entraîne la fermeture de la modale (et un message d'erreur dans la console). A voir
 
 
-        /* !!! ESt-ce que cette partie du code reste utile ?*/
+
         .then(function (response) {
             console.log(response)
-            if (response.status == 200) {
-                //ouvrirModale();
-                //openModal();
+            console.log("test1");
+            if (response.status == 200 || response.status == 204) { //Je ne comprends pas pq j'ai un retour 204 au lieu de 200
                 itemRecherche3.remove();
-                return response.json();
+                console.log("test2");
+                return false;
             }
-        })
-
-        .then(function (result) {
-            //const result2 = result.code;
-            console.log(result);
         })
 
         .catch((error) => {
             alert('Impossible de supprimer ce projet, motif : ' + error);
         });
-
-    openModal();
 }
 
 //------------------------------------------------------Gestion de la fenêtre de login-----------------------------------------
@@ -234,7 +228,7 @@ function verificationUser(login, password) {
             const result2 = result.token;
             sessionStorage.setItem("sessionID", result2);
             sessionStorage.setItem("sessionStatus", 'connected');
-            window.location.href = "http://127.0.0.1:5500/FrontEnd/index.html";
+            window.location = "./index.html";
         })
 
         .catch((error) => {

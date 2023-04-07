@@ -120,7 +120,6 @@ function creerAffichage(baseAffichage, parentAffichage, miniMaxi) {
         figure.appendChild(iconeVignette);
         iconeVignette.addEventListener("click", (e) => {
             e.preventDefault();
-            //console.log(e);
             supprimerProjet(e)
         })
     }
@@ -142,11 +141,6 @@ function supprimerProjet(event) {
     const itemRecherche2 = itemRecherche.parentElement;
     const itemRecherche3 = itemRecherche2.parentElement;
     const itemRecherche4 = itemRecherche3.id;
-    //console.log(itemRecherche);
-    //console.log(itemRecherche2);
-    console.log(itemRecherche3);
-    //console.log(itemRecherche4);
-    //console.log('test5');
 
     fetch('http://localhost:5678/api/works/' + itemRecherche4, {
         method: "DELETE",
@@ -154,16 +148,13 @@ function supprimerProjet(event) {
             'Content-Type': 'application/json;charset=utf-8',
             'Authorization': 'Basic ' + sessionStorage.getItem('sessionID')
         },
-    }) // !!! La suppression d'une vignette entraîne la fermeture de la modale (et un message d'erreur dans la console). A voir
-
-
+    })
 
         .then(function (response) {
             console.log(response)
-            console.log("test1");
             if (response.status == 200 || response.status == 204) { //Je ne comprends pas pq j'ai un retour 204 au lieu de 200
                 itemRecherche3.remove();
-                console.log("test2");
+                recupererContenuBase('http://localhost:5678/api/works', 'Tous', 'gallery', 'maxi');
                 return false;
             }
         })
@@ -248,6 +239,8 @@ const openModal = function () {
     modal.addEventListener('click', closeModal);
     modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+    recupererContenuBase('http://localhost:5678/api/works', 'Tous', 'galleryMini', 'mini')
+    actionsModaleMiniGallery()
 }
 
 const closeModal = function (e) {
@@ -373,7 +366,6 @@ function testBouton() {
 
 async function chargerProjet(e) {
 
-    console.log('test')
     e.preventDefault(); // utile ?
     e.stopPropagation();
 
@@ -405,20 +397,22 @@ async function chargerProjet(e) {
         .then(function (response) {
             console.log(response)
             if (response.status == 201) {
-                openModal();
-                return response.json();
+                modal2Previous();
+                recupererContenuBase('http://localhost:5678/api/works', 'Tous', 'gallery', 'maxi');
+                return false
+                //return response.json();
             }
         })
 
-        .then(function (result) {
+        /*.then(function (result) {
             console.log(result)
 
-        })
+        })*/
 
         .catch((error) => {
             console.log('Erreur de chargement : ' + error);
         });
-    openModal();
+
 }
 
 
